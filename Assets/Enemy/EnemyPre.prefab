@@ -121,7 +121,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c9cc81b6b1a799489f07512b66c028c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyShotPre: {fileID: 8468755899222340659, guid: 0dd75733b461f95499a0093a0a749ef0, type: 3}
+  enemyShotPre: {fileID: 8474972546564639932, guid: 3c2185104887fca46bdc93c899cd43d5, type: 3}
+  explo: {fileID: 2488604035431619208, guid: 7e1957ca02008964393d1c09881be809, type: 3}
 --- !u!50 &180279231654116012
 Rigidbody2D:
   serializedVersion: 4

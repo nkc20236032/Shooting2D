@@ -9,6 +9,9 @@ public class GameDirector : MonoBehaviour
     public Text kyoriLabel;
     public static int kyori;
 
+    public Text shotLabel;
+    PlayerController playerC;
+
     public Image timeGauge;     // タイムゲージを表示するUI
 
     public static float lastTime;             // 残り時間を保存する変数
@@ -17,6 +20,7 @@ public class GameDirector : MonoBehaviour
     {
         kyori = 0;
         lastTime = 100f;
+        playerC = GameObject.Find("Player").GetComponent<PlayerController>();
     }
 
     
@@ -34,5 +38,7 @@ public class GameDirector : MonoBehaviour
         kyori = (kyori < 0) ? 0 : kyori;
         kyori++;
         kyoriLabel.text = kyori.ToString("D6") + "km";
+
+        shotLabel.text = "ShotLevel " + playerC.ShotLevel.ToString("D2");
     }
 }

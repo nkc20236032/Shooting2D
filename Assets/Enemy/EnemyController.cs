@@ -7,14 +7,17 @@ public class EnemyController : MonoBehaviour
     Vector3 dir = Vector3.zero; // 移動方向
     float speed = 5f;            // 移動速度
 
+    int enemyType;
+
     float delta = 0f;               // 経過時間
     float span = 2f;              // 発射間隔
     public GameObject enemyShotPre; // 発射するオブジェクト
 
+    public GameObject explo;
+
     void Start()
     {
-        // 寿命4秒
-        Destroy(gameObject, 4f);
+        enemyType = Random.Range(0, 3);
     }
 
     
@@ -22,6 +25,11 @@ public class EnemyController : MonoBehaviour
     {
         // 移動方向を決定
         dir = Vector3.left;
+
+        if (enemyType == 0)
+        {
+            dir.y = Mathf.Sin(Time.time * 5f);
+        }
 
         // 現在地に移動量を加算
         transform.position += dir.normalized * speed * Time.deltaTime;
@@ -32,6 +40,11 @@ public class EnemyController : MonoBehaviour
         {
             Instantiate(enemyShotPre, transform.position, Quaternion.identity);
             delta = 0f;
+        }
+
+        if (transform.position.x < -10.0f)
+        {
+            Destroy(gameObject);
         }
     }
 
@@ -46,6 +59,9 @@ public class EnemyController : MonoBehaviour
         if(collision.gameObject.tag == "Shot")
         {
             GameDirector.kyori += 200;
+
+            Instantiate(explo, transform.position, Quaternion.identity);
+
             Destroy(collision.gameObject);
             Destroy(gameObject);
 
