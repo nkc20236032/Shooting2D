@@ -6,6 +6,11 @@ public class EnemyController : MonoBehaviour
 {
     Vector3 dir = Vector3.zero; // 移動方向
     float speed = 5f;            // 移動速度
+    int enemyHP;
+
+    SpriteRenderer spriteRenderer;
+    Color hitColor;
+    string colorCord= "#FF6969";
 
     int enemyType;
 
@@ -18,6 +23,10 @@ public class EnemyController : MonoBehaviour
     void Start()
     {
         enemyType = Random.Range(0, 3);
+        enemyHP= Random.Range(10, 21);
+
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        ColorUtility.TryParseHtmlString(colorCord, out hitColor);
     }
 
     
@@ -46,6 +55,17 @@ public class EnemyController : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        if (enemyHP <= 0)
+        {
+            GameDirector.kyori += 200;
+
+            Instantiate(explo, transform.position, Quaternion.identity);
+
+            ItemGenerator.DEnemy += 1;
+            Destroy(gameObject);
+        }
+
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -58,14 +78,21 @@ public class EnemyController : MonoBehaviour
 
         if(collision.gameObject.tag == "Shot")
         {
-            GameDirector.kyori += 200;
+            MyShotController msCon=collision.gameObject.GetComponent<MyShotController>();
+            spriteRenderer.color = hitColor;
 
-            Instantiate(explo, transform.position, Quaternion.identity);
 
             Destroy(collision.gameObject);
-            Destroy(gameObject);
+            enemyHP -= msCon.ShotPower;
 
-            ItemGenerator.DEnemy += 1;
+            // コルーチンの起動
+            StartCoroutine(DelayCoroutine());
         }
     }
+    private IEnumerator DelayCoroutine()
+    {
+        yield return new WaitForSeconds(0.1f);
+        spriteRenderer.color = Color.white;
+    }
+
 }

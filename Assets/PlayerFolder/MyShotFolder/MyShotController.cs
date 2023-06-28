@@ -5,7 +5,16 @@ using UnityEngine;
 public class MyShotController : MonoBehaviour
 {
     float speed = 10f;
-    
+    int shotPower;
+    public int ShotPower
+    {
+        set { shotPower = value; }
+        get
+        {
+            shotPower = Random.Range(8, 16);
+            return shotPower;
+        }
+    }
     void Start()
     {
         
