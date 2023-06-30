@@ -6,19 +6,25 @@ using UnityEngine.SceneManagement;
 
 public class TitleDirector : MonoBehaviour
 {
-    public Text score;
+
     
     void Start()
     {
-        score.text = "Score\n" + GameDirector.kyori.ToString("D6");
+
     }
 
-    
+
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Z))
+        if (Input.GetAxisRaw("Fire1") != 0)
         {
-            SceneManager.LoadScene("GameScene");
+            StartCoroutine(DelayCoroutine());
         }
     }
+    private IEnumerator DelayCoroutine()
+    {
+        yield return new WaitForSeconds(0.3f);
+        SceneManager.LoadScene("GameScene");
+    }
+
 }

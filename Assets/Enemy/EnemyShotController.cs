@@ -4,13 +4,20 @@ using UnityEngine;
 
 public class EnemyShotController : MonoBehaviour
 {
+    GameObject enemyShotSE;
+
     Transform player;
     Vector3 dir = Vector3.zero;
+
+    PlayerController playerController;
 
     void Start()
     {
         player = GameObject.Find("Player").transform;
         dir = player.position - transform.position;
+
+        playerController = GameObject.Find("Player").GetComponent<PlayerController>();
+        enemyShotSE = GameObject.Find("GameAudioController");
     }
 
 
@@ -31,7 +38,9 @@ public class EnemyShotController : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
+            enemyShotSE.GetComponent<GameAudioController>().HidanSE();
             GameDirector.kyori -= 500;
+            playerController.PlayerHP -= 2;
             Destroy(gameObject);
         }
     }

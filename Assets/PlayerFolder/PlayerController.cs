@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    GameObject playerSE;
+
     public GameObject shotPre;
     public GameObject shotPoint;
 
@@ -38,9 +40,20 @@ public class PlayerController : MonoBehaviour
         set
         {
             shotspan = value;
-            shotspan = Mathf.Clamp(shotspan, 0.5f, 0.1f);
+            shotspan = Mathf.Clamp(shotspan, 0.1f, 0.6f);
         }
         get { return shotspan; }
+    }
+
+    float playerHP = 100;
+    public float PlayerHP
+    {
+        set
+        {
+            playerHP = value;
+            playerHP = Mathf.Clamp(playerHP, 0, 101);
+        }
+        get { return playerHP; }
     }
 
 
@@ -52,6 +65,8 @@ public class PlayerController : MonoBehaviour
     {
         // アニメーターコンポーネントの情報を保存
         anim = GetComponent<Animator>();
+
+        playerSE = GameObject.Find("GameAudioController");
     }
 
     
@@ -85,7 +100,7 @@ public class PlayerController : MonoBehaviour
 
         // 弾の発射
         delta += Time.deltaTime;
-        if (Input.GetKey(KeyCode.Z) && delta >= shotspan)
+        if (Input.GetAxisRaw("Fire1")!=0 && delta >= shotspan)
         {
             for(int i = -shotLevel; i < shotLevel + 1; i++)
             {
@@ -96,7 +111,7 @@ public class PlayerController : MonoBehaviour
 
                 Instantiate(shotPre, p, rot);
             }
-
+            playerSE.GetComponent<GameAudioController>().PlayerShotSE();
 
             delta = 0;
         }

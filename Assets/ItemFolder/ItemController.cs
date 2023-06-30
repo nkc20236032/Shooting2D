@@ -10,6 +10,8 @@ public class ItemController : MonoBehaviour
     Vector3 dir = Vector3.down;
 
     int itemType;
+
+    GameObject itemGetSE;
     
     void Start()
     {
@@ -19,6 +21,7 @@ public class ItemController : MonoBehaviour
         spRender = GetComponent<SpriteRenderer>();
         spRender.color = col[itemType];
 
+        itemGetSE = GameObject.Find("GameAudioController");
     }
 
 
@@ -52,10 +55,12 @@ public class ItemController : MonoBehaviour
             }
             else if(itemType == 3)
             {
-                pCon.ShotLevel = 0;
-                pCon.Speed = 5;
-                pCon.ShotSpan = 0.5f;
+                pCon.ShotLevel -= 1;
+                pCon.Speed -= 2;
+                pCon.ShotSpan += 0.02f;
+                pCon.PlayerHP += 10;
             }
+            itemGetSE.GetComponent<GameAudioController>().ItemGetSE();
 
             Destroy(gameObject);
         }

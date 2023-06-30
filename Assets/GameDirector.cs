@@ -13,8 +13,10 @@ public class GameDirector : MonoBehaviour
     PlayerController playerC;
 
     public Image timeGauge;     // タイムゲージを表示するUI
-
     public static float lastTime;             // 残り時間を保存する変数
+
+    public Image playerHPGauge;
+
     
     void Start()
     {
@@ -32,7 +34,13 @@ public class GameDirector : MonoBehaviour
 
         if (lastTime < 0)
         {
-            SceneManager.LoadScene("TitleScene");
+            SceneManager.LoadScene("GameClearScene");
+        }
+
+        playerHPGauge.fillAmount = playerC.PlayerHP / 100;
+        if(playerC.PlayerHP <= 0)
+        {
+            SceneManager.LoadScene("GameOverScene");
         }
 
         kyori = (kyori < 0) ? 0 : kyori;
